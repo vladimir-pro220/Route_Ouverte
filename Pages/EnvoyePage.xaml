@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RouteOuverte.Pages.EnvoyePage" Title="Signalement envoyé"
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="{StaticResource RoBackground}">
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="12">
+
+            <Border BackgroundColor="{StaticResource RoPraticable}" Stroke="Transparent"
+                    WidthRequest="96" HeightRequest="96" HorizontalOptions="Center" Margin="0,16,0,0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="48" />
+                </Border.StrokeShape>
+                <Label Text="✓" TextColor="White" FontSize="56" FontAttributes="Bold"
+                       HorizontalOptions="Center" VerticalOptions="Center" />
+            </Border>
+
+            <Label Text="Merci !" Style="{StaticResource Titre}" HorizontalOptions="Center" />
+            <Label Text="Votre signalement a été envoyé." Style="{StaticResource Secondaire}" HorizontalOptions="Center" />
+
+            <Border Style="{StaticResource Carte}" Margin="0,8,0,0">
+                <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto" RowSpacing="12">
+                    <Label Text="Route" Style="{StaticResource Secondaire}" />
+                    <Label x:Name="RouteLabel" Grid.Column="1" FontAttributes="Bold" />
+
+                    <Label Grid.Row="1" Text="État" Style="{StaticResource Secondaire}" VerticalOptions="Center" />
+                    <Border x:Name="EtatBadge" Grid.Row="1" Grid.Column="1" Stroke="Transparent" Padding="10,4" HorizontalOptions="End">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="16" />
+                        </Border.StrokeShape>
+                        <Label x:Name="EtatLabel" FontSize="14" FontAttributes="Bold" />
+                    </Border>
+
+                    <Label Grid.Row="2" Text="Zone" Style="{StaticResource Secondaire}" />
+                    <Label x:Name="ZoneLabel" Grid.Row="2" Grid.Column="1" FontAttributes="Bold" />
+
+                    <Label Grid.Row="3" Text="Photo" Style="{StaticResource Secondaire}" />
+                    <Label x:Name="PhotoLabel" Grid.Row="3" Grid.Column="1" FontAttributes="Bold" />
+
+                    <Label Grid.Row="4" Text="Validité" Style="{StaticResource Secondaire}" />
+                    <Label Grid.Row="4" Grid.Column="1" Text="⏱ Valable 6 h" FontAttributes="Bold" />
+                </Grid>
+            </Border>
+
+            <Button Text="Voir l'état du jour" Style="{StaticResource BoutonPrincipal}" Margin="0,8,0,0" Clicked="OnVoirEtat" />
+            <Button Text="Signaler une autre route" Style="{StaticResource BoutonContour}" Clicked="OnAutreRoute" />
+            <Button Text="Annuler le signalement" BackgroundColor="Transparent" TextColor="#BA1A1A"
+                    FontAttributes="Bold" HeightRequest="48" Clicked="OnAnnuler" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

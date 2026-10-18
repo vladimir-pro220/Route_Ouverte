@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:v="clr-namespace:RouteOuverte.Views"
+             x:Class="RouteOuverte.Views.RouteSheet">
+    <Grid>
+        <!-- Voile (20 %) : toucher pour fermer -->
+        <BoxView Color="Black" Opacity="0.2">
+            <BoxView.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnFermer" />
+            </BoxView.GestureRecognizers>
+        </BoxView>
+
+        <Border VerticalOptions="End" BackgroundColor="White" Stroke="Transparent" Padding="16,12,16,16">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="24,24,0,0" />
+            </Border.StrokeShape>
+            <VerticalStackLayout Spacing="12">
+                <BoxView WidthRequest="40" HeightRequest="4" CornerRadius="2" Color="#C3C6D2" HorizontalOptions="Center" />
+                <Label Text="Route concernée" Style="{StaticResource Titre}" FontSize="20" />
+
+                <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                    <HorizontalStackLayout x:Name="Puces" Spacing="8" />
+                </ScrollView>
+
+                <VerticalStackLayout x:Name="Liste" Spacing="4">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="v:LigneRoute">
+                            <Border BackgroundColor="Transparent" Stroke="Transparent" Padding="8,10" MinimumHeightRequest="56">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnLigneTapped" />
+                                </Border.GestureRecognizers>
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <VerticalStackLayout>
+                                        <Label Text="{Binding Nom}" FontAttributes="Bold" />
+                                        <Label Text="{Binding TexteZone}" Style="{StaticResource Secondaire}" />
+                                    </VerticalStackLayout>
+                                    <Label Grid.Column="1" Text="{Binding Radio}" FontSize="26" VerticalOptions="Center"
+                                           TextColor="{StaticResource RoPrimary}" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+
+                <Label x:Name="Vide" Text="Aucune route signalée dans cette zone." Style="{StaticResource Secondaire}"
+                       HorizontalTextAlignment="Center" IsVisible="False" />
+
+                <Button Text="Fermer" Style="{StaticResource BoutonContour}" Clicked="OnFermer" />
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+</ContentView>

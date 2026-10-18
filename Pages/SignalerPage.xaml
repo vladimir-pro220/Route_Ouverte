@@ -2,45 +2,99 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:m="clr-namespace:RouteOuverte.Models"
+             xmlns:v="clr-namespace:RouteOuverte.Views"
              x:Class="RouteOuverte.Pages.SignalerPage" Title="Signaler"
              BackgroundColor="{StaticResource RoBackground}">
-    <ScrollView>
-        <VerticalStackLayout Padding="16" Spacing="12">
-            <Border x:Name="HorsLigne" BackgroundColor="#ECEFF1" Stroke="Transparent" Padding="16,10" IsVisible="False">
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="16" />
-                </Border.StrokeShape>
-                <Label Text="Hors ligne – envoi dès le retour du réseau" FontSize="14" TextColor="{StaticResource RoTextSecondary}" />
-            </Border>
-            <Label Text="Que voyez-vous ?" Style="{StaticResource Titre}" />
-            <Border Style="{StaticResource Carte}" Padding="16,4">
-                <Picker x:Name="RoutePicker" Title="Route concernée" FontSize="16" TextColor="{StaticResource RoTextPrimary}" />
-            </Border>
-            <Label Text="Du plus mauvais au meilleur état" FontSize="14" FontAttributes="Bold" Margin="0,8,0,0" />
-            <VerticalStackLayout x:Name="Bandes" Spacing="12">
-                <BindableLayout.ItemTemplate>
-                    <DataTemplate x:DataType="m:BandeSignalement">
-                        <Border BackgroundColor="{Binding Couleur}" Stroke="Transparent" Padding="16" MinimumHeightRequest="80"
-                                SemanticProperties.Description="{Binding Titre}">
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="16" Spacing="12">
+
+                <Border x:Name="PastilleHorsLigne" BackgroundColor="#ECEFF1" Stroke="Transparent" Padding="16,10" IsVisible="False">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="16" />
+                    </Border.StrokeShape>
+                    <Label Text="Hors ligne – envoi dès le retour du réseau" FontSize="14" TextColor="{StaticResource RoTextSecondary}" />
+                </Border>
+
+                <Label Text="Que voyez-vous ?" Style="{StaticResource Titre}" />
+
+                <!-- Route concernée -->
+                <Border Style="{StaticResource Carte}" Padding="16,10">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnChoisirRoute" />
+                    </Border.GestureRecognizers>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="Route concernée" Style="{StaticResource Secondaire}" FontSize="13" />
+                            <Label x:Name="RouteNom" FontSize="18" FontAttributes="Bold" />
+                            <Label x:Name="RouteZone" Style="{StaticResource Secondaire}" />
+                        </VerticalStackLayout>
+                        <Label Grid.Column="1" Text="⌄" FontSize="26" VerticalOptions="Center" TextColor="{StaticResource RoTextSecondary}" />
+                    </Grid>
+                </Border>
+
+                <!-- Photo : état vide (écran 03) -->
+                <Border x:Name="PhotoVide" Style="{StaticResource Carte}" BackgroundColor="White" Stroke="#C3C6D2"
+                        StrokeThickness="2" StrokeDashArray="4,4" Padding="16">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnPhoto" />
+                    </Border.GestureRecognizers>
+                    <Label Text="📷  Ajouter une photo (facultatif)" FontAttributes="Bold"
+                           TextColor="{StaticResource RoPrimary}" HorizontalOptions="Center" />
+                </Border>
+
+                <!-- Photo : état ajouté (écran 14) -->
+                <Border x:Name="PhotoAjoutee" Style="{StaticResource Carte}" Padding="12" IsVisible="False">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                        <Border WidthRequest="64" HeightRequest="64" Stroke="Transparent" Padding="0">
                             <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="16" />
+                                <RoundRectangle CornerRadius="12" />
                             </Border.StrokeShape>
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="OnBandeTapped" />
-                            </Border.GestureRecognizers>
-                            <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
-                                <VerticalStackLayout>
-                                    <Label Text="{Binding Titre}" FontSize="18" FontAttributes="Bold" TextColor="{Binding CouleurTexte}" />
-                                    <Label Text="{Binding SousTexte}" FontSize="14" TextColor="{Binding CouleurTexte}" />
-                                </VerticalStackLayout>
-                                <Label Grid.Column="1" Text="{Binding Jauge}" FontSize="16" TextColor="{Binding CouleurTexte}" VerticalOptions="Center" />
-                            </Grid>
+                            <Image x:Name="Miniature" Aspect="AspectFill" />
                         </Border>
-                    </DataTemplate>
-                </BindableLayout.ItemTemplate>
+                        <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                            <Label Text="✔ Photo ajoutée" FontAttributes="Bold" TextColor="{StaticResource RoPraticable}" />
+                            <HorizontalStackLayout Spacing="8">
+                                <Button Text="Changer" Style="{StaticResource Puce}" Clicked="OnPhoto" />
+                                <Button Text="Supprimer" Style="{StaticResource Puce}" TextColor="#BA1A1A" Clicked="OnSupprimerPhoto" />
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+
+                <Label Text="Du plus mauvais au meilleur état" FontSize="14" FontAttributes="Bold" Margin="0,8,0,0" />
+
+                <VerticalStackLayout x:Name="Bandes" Spacing="12">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="m:BandeSignalement">
+                            <Border BackgroundColor="{Binding Couleur}" Stroke="Transparent" Padding="16"
+                                    MinimumHeightRequest="80" SemanticProperties.Description="{Binding Titre}">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="16" />
+                                </Border.StrokeShape>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnBandeTapped" />
+                                </Border.GestureRecognizers>
+                                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" VerticalOptions="Center">
+                                    <Label Text="{Binding Icone}" FontSize="28" VerticalOptions="Center" TextColor="{Binding CouleurTexte}" />
+                                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                        <Label Text="{Binding Titre}" FontSize="18" FontAttributes="Bold" TextColor="{Binding CouleurTexte}" />
+                                        <Label Text="{Binding SousTexte}" FontSize="14" TextColor="{Binding CouleurTexte}" />
+                                    </VerticalStackLayout>
+                                    <Label Grid.Column="2" Text="{Binding Jauge}" FontSize="16" TextColor="{Binding CouleurTexte}" VerticalOptions="Center" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+
+                <Label Text="⏱ Un seul tap suffit. Votre signalement expire après 6 h." Style="{StaticResource Secondaire}"
+                       HorizontalTextAlignment="Center" Margin="0,8,0,0" />
             </VerticalStackLayout>
-            <Label x:Name="Confirmation" IsVisible="False" HorizontalTextAlignment="Center" FontAttributes="Bold" TextColor="{StaticResource RoPraticable}" />
-            <Label Text="Un seul tap suffit. Votre signalement expire après 6 h." Style="{StaticResource Secondaire}" HorizontalTextAlignment="Center" />
-        </VerticalStackLayout>
-    </ScrollView>
+        </ScrollView>
+
+        <!-- Feuilles du bas (écrans 12 et 13), superposées à la page -->
+        <v:RouteSheet x:Name="FeuilleRoute" IsVisible="False" />
+        <v:PhotoSheet x:Name="FeuillePhoto" IsVisible="False" />
+    </Grid>
 </ContentPage>

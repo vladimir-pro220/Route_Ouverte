@@ -51,11 +51,26 @@ public static class RoadService
         }
     }
 
-    public static void Ajouter(string troncon, StatutRoute statut)
+    /// <summary>Pour la démonstration : mettre à true pour simuler l'absence de réseau.</summary>
+    public static bool ForcerHorsLigne { get; set; } = false;
+    public static bool HorsLigne => ForcerHorsLigne || Connectivity.Current.NetworkAccess != NetworkAccess.Internet;
+
+    public static string Zone(string troncon) => troncon == "Carrefour Deido" ? "Deido" : "Akwa";
+
+    public static Signalement Ajouter(string troncon, StatutRoute statut, string? photo = null)
     {
         var l = Charger().Where(Recent).ToList();
-        l.Add(new Signalement { Troncon = troncon, Statut = statut, Date = DateTime.Now });
+        var s = new Signalement { Troncon = troncon, Statut = statut, Date = DateTime.Now, Photo = photo };
+        l.Add(s);
         Sauver(l);
+        return s;
+    }
+
+    public static void Retirer(Signalement s)
+    {
+        var l = Charger();
+        var i = l.FindIndex(x => x.Troncon == s.Troncon && x.Statut == s.Statut && x.Date == s.Date);
+        if (i >= 0) { l.RemoveAt(i); Sauver(l); }
     }
 
     public static List<Troncon> EtatDuJour()
