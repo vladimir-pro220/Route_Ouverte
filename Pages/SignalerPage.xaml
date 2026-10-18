@@ -1,12 +1,46 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="RouteOuverte.Pages.SignalerPage"
-             Title="SignalerPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             xmlns:m="clr-namespace:RouteOuverte.Models"
+             x:Class="RouteOuverte.Pages.SignalerPage" Title="Signaler"
+             BackgroundColor="{StaticResource RoBackground}">
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="12">
+            <Border x:Name="HorsLigne" BackgroundColor="#ECEFF1" Stroke="Transparent" Padding="16,10" IsVisible="False">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="16" />
+                </Border.StrokeShape>
+                <Label Text="Hors ligne – envoi dès le retour du réseau" FontSize="14" TextColor="{StaticResource RoTextSecondary}" />
+            </Border>
+            <Label Text="Que voyez-vous ?" Style="{StaticResource Titre}" />
+            <Border Style="{StaticResource Carte}" Padding="16,4">
+                <Picker x:Name="RoutePicker" Title="Route concernée" FontSize="16" TextColor="{StaticResource RoTextPrimary}" />
+            </Border>
+            <Label Text="Du plus mauvais au meilleur état" FontSize="14" FontAttributes="Bold" Margin="0,8,0,0" />
+            <VerticalStackLayout x:Name="Bandes" Spacing="12">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="m:BandeSignalement">
+                        <Border BackgroundColor="{Binding Couleur}" Stroke="Transparent" Padding="16" MinimumHeightRequest="80"
+                                SemanticProperties.Description="{Binding Titre}">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="16" />
+                            </Border.StrokeShape>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnBandeTapped" />
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding Titre}" FontSize="18" FontAttributes="Bold" TextColor="{Binding CouleurTexte}" />
+                                    <Label Text="{Binding SousTexte}" FontSize="14" TextColor="{Binding CouleurTexte}" />
+                                </VerticalStackLayout>
+                                <Label Grid.Column="1" Text="{Binding Jauge}" FontSize="16" TextColor="{Binding CouleurTexte}" VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+            <Label x:Name="Confirmation" IsVisible="False" HorizontalTextAlignment="Center" FontAttributes="Bold" TextColor="{StaticResource RoPraticable}" />
+            <Label Text="Un seul tap suffit. Votre signalement expire après 6 h." Style="{StaticResource Secondaire}" HorizontalTextAlignment="Center" />
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

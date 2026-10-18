@@ -1,6 +1,4 @@
 using RouteOuverte.Models;
-using RouteOuverte.Services;
-using System.Reflection;
 
 namespace RouteOuverte.Pages;
 
