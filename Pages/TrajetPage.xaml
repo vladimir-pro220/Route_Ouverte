@@ -6,21 +6,35 @@
     <ScrollView>
         <VerticalStackLayout Padding="16" Spacing="8">
             <Label Text="Où allez-vous ?" Style="{StaticResource Titre}" Margin="0,8,0,8" />
-            <Border Style="{StaticResource Carte}">
+
+            <Border x:Name="DepartCarte" Style="{StaticResource Carte}">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnChoisirDepart" />
+                </Border.GestureRecognizers>
                 <VerticalStackLayout>
-                    <Label Text="Départ" Style="{StaticResource Secondaire}" />
-                    <Entry x:Name="DepartEntry" Text="Akwa" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource RoTextPrimary}" />
+                    <Label Text="Départ" Style="{StaticResource Secondaire}" FontSize="13" />
+                    <Label x:Name="DepartLabel" FontSize="18" FontAttributes="Bold" />
                 </VerticalStackLayout>
             </Border>
+
             <Button Text="⇅" Clicked="OnInverser" HorizontalOptions="End" WidthRequest="48" HeightRequest="48"
-                    CornerRadius="24" Padding="0" FontSize="22" BackgroundColor="White" TextColor="{StaticResource RoPrimary}"
-                    SemanticProperties.Description="Inverser départ et arrivée" />
-            <Border Style="{StaticResource Carte}">
+                    CornerRadius="24" Padding="0" FontSize="22" BackgroundColor="White"
+                    TextColor="{StaticResource RoPrimary}" SemanticProperties.Description="Inverser départ et arrivée" />
+
+            <Border x:Name="ArriveeCarte" Style="{StaticResource Carte}">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnChoisirArrivee" />
+                </Border.GestureRecognizers>
                 <VerticalStackLayout>
-                    <Label Text="Arrivée" Style="{StaticResource Secondaire}" />
-                    <Entry x:Name="ArriveeEntry" Text="Marché Deido" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource RoTextPrimary}" />
+                    <Label Text="Arrivée" Style="{StaticResource Secondaire}" FontSize="13" />
+                    <Label x:Name="ArriveeLabel" FontSize="18" FontAttributes="Bold" />
                 </VerticalStackLayout>
             </Border>
+
+            <!-- Écran 06 : message d'erreur -->
+            <Label x:Name="ErreurLabel" Text="⚠ Le départ et l'arrivée doivent être différents."
+                   TextColor="#BA1A1A" FontSize="14" IsVisible="False" />
+
             <Label Text="Lieux favoris" Style="{StaticResource Secondaire}" Margin="0,16,0,0" />
             <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
                 <HorizontalStackLayout Spacing="8">
@@ -30,7 +44,9 @@
                     <Button Text="Marché" Style="{StaticResource Puce}" Clicked="OnFavori" />
                 </HorizontalStackLayout>
             </ScrollView>
-            <Button Text="Voir l'état des routes" Style="{StaticResource BoutonPrincipal}" Margin="0,24,0,0" Clicked="OnVoirEtat" />
+
+            <Button Text="Voir l'état des routes" Style="{StaticResource BoutonPrincipal}" Margin="0,24,0,0"
+                    Clicked="OnVoirEtat" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

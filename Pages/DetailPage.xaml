@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:m="clr-namespace:RouteOuverte.Models"
+             x:Class="RouteOuverte.Pages.DetailPage" Title="Détail"
+             Shell.TabBarIsVisible="True"
+             BackgroundColor="{StaticResource RoBackground}">
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="12">
+
+            <HorizontalStackLayout Spacing="12">
+                <Border x:Name="Badge" Stroke="Transparent" Padding="12,6">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="16" />
+                    </Border.StrokeShape>
+                    <Label x:Name="BadgeLabel" FontSize="16" FontAttributes="Bold" />
+                </Border>
+            </HorizontalStackLayout>
+            <Label x:Name="ZoneLabel" Style="{StaticResource Secondaire}" />
+            <Label x:Name="ExpireLabel" Style="{StaticResource Secondaire}" />
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                <Border Style="{StaticResource Carte}">
+                    <VerticalStackLayout>
+                        <Label x:Name="NbSignalements" FontSize="28" FontAttributes="Bold" />
+                        <Label Text="signalements" Style="{StaticResource Secondaire}" />
+                    </VerticalStackLayout>
+                </Border>
+                <Border Grid.Column="1" Style="{StaticResource Carte}">
+                    <VerticalStackLayout>
+                        <Label x:Name="NbConfirmations" FontSize="28" FontAttributes="Bold" />
+                        <Label Text="confirmations" Style="{StaticResource Secondaire}" />
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+
+            <VerticalStackLayout x:Name="BlocPhotos" Spacing="8">
+                <Label Text="Photos récentes" FontSize="20" FontAttributes="Bold" />
+                <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                    <HorizontalStackLayout x:Name="Photos" Spacing="8" />
+                </ScrollView>
+            </VerticalStackLayout>
+
+            <Label Text="Derniers signalements" FontSize="20" FontAttributes="Bold" />
+            <VerticalStackLayout x:Name="Derniers" Spacing="8">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="m:LigneSignalement">
+                        <Border Style="{StaticResource Carte}" Padding="16,12">
+                            <HorizontalStackLayout Spacing="10">
+                                <BoxView Color="{Binding Couleur}" WidthRequest="12" HeightRequest="12" CornerRadius="6" VerticalOptions="Center" />
+                                <Label Text="{Binding Texte}" VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+
+            <Button x:Name="BtnConfirmer" Style="{StaticResource BoutonPrincipal}" Margin="0,12,0,0" Clicked="OnConfirmer" />
+            <Button Text="Signaler un changement" Style="{StaticResource BoutonContour}" Clicked="OnChangement" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

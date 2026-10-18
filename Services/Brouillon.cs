@@ -13,6 +13,6 @@ public static class Brouillon
     public static async Task VoirEtatDuJour()
     {
         await Shell.Current.GoToAsync("//Trajet");
-        await Shell.Current.GoToAsync($"{nameof(EtatPage)}?depart=Akwa&arrivee=Deido");
+        await Shell.Current.GoToAsync($"{nameof(EtatPage)}?depart={Uri.EscapeDataString(Choix.Depart)}&arrivee={Uri.EscapeDataString(Choix.Arrivee)}");
     }
 }

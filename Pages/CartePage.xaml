@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:v="clr-namespace:RouteOuverte.Views"
+             x:Class="RouteOuverte.Pages.CartePage" Title="Carte du trajet"
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="{StaticResource RoBackground}">
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <Label Padding="16,12" FontSize="14">
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span Text="● " TextColor="{StaticResource RoBloquee}" />
+                    <Span Text="Bloquée    " />
+                    <Span Text="● " TextColor="{StaticResource RoInondee}" />
+                    <Span Text="Inondée    " />
+                    <Span Text="● " TextColor="{StaticResource RoDifficile}" />
+                    <Span Text="Boueuse    " />
+                    <Span Text="● " TextColor="{StaticResource RoPraticable}" />
+                    <Span Text="Praticable" />
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+
+        <v:CarteStylisee x:Name="Carte" Grid.Row="1" Interactive="True" Margin="16,0,16,16" />
+
+        <!-- Feuille du bas : résumé du tronçon sélectionné -->
+        <Border x:Name="Feuille" Grid.Row="2" BackgroundColor="White" Stroke="Transparent" Padding="16,12,16,16" IsVisible="False">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="24,24,0,0" />
+            </Border.StrokeShape>
+            <VerticalStackLayout Spacing="8">
+                <BoxView WidthRequest="40" HeightRequest="4" CornerRadius="2" Color="#C3C6D2" HorizontalOptions="Center" />
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label x:Name="NomLabel" FontSize="20" FontAttributes="Bold" VerticalOptions="Center" />
+                    <Border x:Name="Badge" Grid.Column="1" Stroke="Transparent" Padding="10,4">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="16" />
+                        </Border.StrokeShape>
+                        <Label x:Name="BadgeLabel" FontSize="14" FontAttributes="Bold" />
+                    </Border>
+                </Grid>
+                <Label x:Name="CompteursLabel" Style="{StaticResource Secondaire}" />
+                <Button Text="Voir le détail  ›" Style="{StaticResource BoutonPrincipal}" Clicked="OnDetail" />
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+</ContentPage>

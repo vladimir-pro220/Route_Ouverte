@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:v="clr-namespace:RouteOuverte.Views"
+             xmlns:m="clr-namespace:RouteOuverte.Models"
              x:Class="RouteOuverte.Views.RouteSheet">
     <Grid>
         <!-- Voile (20 %) : toucher pour fermer -->
@@ -25,7 +25,7 @@
 
                 <VerticalStackLayout x:Name="Liste" Spacing="4">
                     <BindableLayout.ItemTemplate>
-                        <DataTemplate x:DataType="v:LigneRoute">
+                        <DataTemplate x:DataType="m:LigneRoute">
                             <Border BackgroundColor="Transparent" Stroke="Transparent" Padding="8,10" MinimumHeightRequest="56">
                                 <Border.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="OnLigneTapped" />

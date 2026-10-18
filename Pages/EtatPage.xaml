@@ -2,52 +2,116 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:m="clr-namespace:RouteOuverte.Models"
+             xmlns:v="clr-namespace:RouteOuverte.Views"
              x:Class="RouteOuverte.Pages.EtatPage"
+             Shell.TabBarIsVisible="True"
              BackgroundColor="{StaticResource RoBackground}">
-    <ScrollView>
-        <VerticalStackLayout Padding="16" Spacing="12">
-            <Label x:Name="MajLabel" Style="{StaticResource Secondaire}" />
-            <Border x:Name="Bandeau" Style="{StaticResource Carte}" BackgroundColor="{StaticResource RoErrorContainer}" Padding="16,12">
-                <Label x:Name="BandeauLabel" FontAttributes="Bold" TextColor="{StaticResource RoOnErrorContainer}" />
-            </Border>
-            <FlexLayout Wrap="Wrap" JustifyContent="Start">
-                <HorizontalStackLayout Spacing="4" Margin="0,0,12,4">
-                    <BoxView Color="{StaticResource RoBloquee}" WidthRequest="12" HeightRequest="12" CornerRadius="6" VerticalOptions="Center" />
-                    <Label Text="Bloquée" FontSize="14" />
-                </HorizontalStackLayout>
-                <HorizontalStackLayout Spacing="4" Margin="0,0,12,4">
-                    <BoxView Color="{StaticResource RoInondee}" WidthRequest="12" HeightRequest="12" CornerRadius="6" VerticalOptions="Center" />
-                    <Label Text="Inondée" FontSize="14" />
-                </HorizontalStackLayout>
-                <HorizontalStackLayout Spacing="4" Margin="0,0,12,4">
-                    <BoxView Color="{StaticResource RoDifficile}" WidthRequest="12" HeightRequest="12" CornerRadius="6" VerticalOptions="Center" />
-                    <Label Text="Boueuse" FontSize="14" />
-                </HorizontalStackLayout>
-                <HorizontalStackLayout Spacing="4" Margin="0,0,12,4">
-                    <BoxView Color="{StaticResource RoPraticable}" WidthRequest="12" HeightRequest="12" CornerRadius="6" VerticalOptions="Center" />
-                    <Label Text="Praticable" FontSize="14" />
-                </HorizontalStackLayout>
-            </FlexLayout>
-            <VerticalStackLayout x:Name="Liste" Spacing="12" BindableLayout.ItemsSource="{Binding .}">
-                <BindableLayout.ItemTemplate>
-                    <DataTemplate x:DataType="m:Troncon">
-                        <Border Style="{StaticResource Carte}">
-                            <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="8" RowSpacing="4">
-                                <BoxView Color="{Binding Couleur}" WidthRequest="16" HeightRequest="16" CornerRadius="8" VerticalOptions="Center" />
-                                <Label Grid.Column="1" Text="{Binding Nom}" FontSize="20" FontAttributes="Bold" VerticalOptions="Center" />
-                                <Border Grid.Column="2" BackgroundColor="{Binding Couleur}" Stroke="Transparent" Padding="10,4" VerticalOptions="Start">
-                                    <Border.StrokeShape>
-                                        <RoundRectangle CornerRadius="16" />
-                                    </Border.StrokeShape>
-                                    <Label Text="{Binding Libelle}" TextColor="{Binding CouleurTexte}" FontSize="14" FontAttributes="Bold" />
-                                </Border>
-                                <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding TexteSignalements}" Style="{StaticResource Secondaire}" />
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </BindableLayout.ItemTemplate>
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="16" Spacing="12">
+
+                <Label x:Name="MajLabel" Style="{StaticResource Secondaire}" />
+
+                <Border x:Name="Bandeau" Style="{StaticResource Carte}" BackgroundColor="{StaticResource RoErrorContainer}" Padding="16,12">
+                    <Label x:Name="BandeauLabel" FontAttributes="Bold" TextColor="{StaticResource RoOnErrorContainer}" />
+                </Border>
+
+                <!-- Carte stylisée : toucher pour ouvrir l'écran 08 -->
+                <v:CarteStylisee x:Name="Carte" HeightRequest="120" />
+
+                <!-- Légende des 4 états -->
+                <Label FontSize="14">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="● " TextColor="{StaticResource RoBloquee}" />
+                            <Span Text="Bloquée    " />
+                            <Span Text="● " TextColor="{StaticResource RoInondee}" />
+                            <Span Text="Inondée    " />
+                            <Span Text="● " TextColor="{StaticResource RoDifficile}" />
+                            <Span Text="Boueuse    " />
+                            <Span Text="● " TextColor="{StaticResource RoPraticable}" />
+                            <Span Text="Praticable" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <Label Text="Zone" FontSize="20" FontAttributes="Bold" />
+                <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                    <HorizontalStackLayout x:Name="Puces" Spacing="8" />
+                </ScrollView>
+
+                <!-- Cartes de tronçons -->
+                <VerticalStackLayout x:Name="Liste" Spacing="12">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="m:Troncon">
+                            <Border Style="{StaticResource Carte}">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnCarteTapped" />
+                                </Border.GestureRecognizers>
+                                <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnSpacing="8" RowSpacing="4">
+
+                                    <HorizontalStackLayout Spacing="8">
+                                        <BoxView Color="{Binding Couleur}" WidthRequest="16" HeightRequest="16" CornerRadius="8" VerticalOptions="Center" />
+                                        <Label Text="{Binding Nom}" FontSize="20" FontAttributes="Bold" VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
+
+                                    <Border Grid.Column="1" BackgroundColor="{Binding Couleur}" Stroke="Transparent" Padding="10,4" VerticalOptions="Start">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="16" />
+                                        </Border.StrokeShape>
+                                        <Label Text="{Binding Libelle}" TextColor="{Binding CouleurTexte}" FontSize="14" FontAttributes="Bold" />
+                                    </Border>
+
+                                    <Label Grid.Row="1" Text="{Binding TexteZone}" Style="{StaticResource Secondaire}" />
+                                    <Label Grid.Row="2" Text="{Binding TexteCompteurs}" Style="{StaticResource Secondaire}" />
+                                    <Label Grid.Row="3" Text="{Binding TexteExpire, StringFormat='⏱ {0}'}" Style="{StaticResource Secondaire}" />
+
+                                    <!-- Miniature photo : toucher pour ouvrir l'écran 10 -->
+                                    <Border Grid.Row="1" Grid.Column="1" Grid.RowSpan="3" WidthRequest="56" HeightRequest="56"
+                                            Stroke="Transparent" Padding="0" IsVisible="{Binding APhoto}" VerticalOptions="Center">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="12" />
+                                        </Border.StrokeShape>
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnPhotoTapped" />
+                                        </Border.GestureRecognizers>
+                                        <Image Source="{Binding Miniature}" Aspect="AspectFill" />
+                                    </Border>
+
+                                    <Label Grid.Row="4" Text="Toujours vrai ?" Style="{StaticResource Secondaire}" VerticalOptions="Center" />
+                                    <Button Grid.Row="4" Grid.Column="1" Text="{Binding TexteConfirmer}"
+                                            Style="{StaticResource BoutonContour}" HeightRequest="48" Padding="16,0"
+                                            BackgroundColor="{Binding FondConfirmer}" Clicked="OnConfirmer" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+
+                <!-- Écran 07 : zone sans signalement -->
+                <VerticalStackLayout x:Name="EtatVide" Spacing="8" IsVisible="False" Margin="0,24,0,0">
+                    <Label Text="🛣" FontSize="48" HorizontalOptions="Center" />
+                    <Label Text="Aucun signalement dans cette zone" FontSize="20" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                    <Label x:Name="VideTexte" Style="{StaticResource Secondaire}" HorizontalTextAlignment="Center" />
+                    <Button Text="Signaler une route" Style="{StaticResource BoutonContour}" Margin="0,12,0,0" Clicked="OnSignaler" />
+                </VerticalStackLayout>
+
+                <Button x:Name="BoutonSignaler" Text="Signaler une route" Style="{StaticResource BoutonContour}"
+                        Margin="0,12,0,56" Clicked="OnSignaler" />
             </VerticalStackLayout>
-            <Button Text="Signaler une route" Style="{StaticResource BoutonContour}" Margin="0,12,0,0" Clicked="OnSignaler" />
-        </VerticalStackLayout>
-    </ScrollView>
+        </ScrollView>
+
+        <!-- Écran 11 : barre après confirmation -->
+        <Border x:Name="Snack" VerticalOptions="End" Margin="16" BackgroundColor="#313030"
+                Stroke="Transparent" Padding="16,0,8,0" IsVisible="False">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12" />
+            </Border.StrokeShape>
+            <Grid ColumnDefinitions="*,Auto">
+                <Label Text="Merci, confirmation enregistrée" TextColor="White" FontSize="14" VerticalOptions="Center" />
+                <Button Grid.Column="1" Text="Annuler" BackgroundColor="Transparent" TextColor="#D6E3FF"
+                        FontAttributes="Bold" HeightRequest="48" Clicked="OnAnnulerConfirmation" />
+            </Grid>
+        </Border>
+    </Grid>
 </ContentPage>
