@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:pages="clr-namespace:RouteOuverte.Pages"
+       x:Class="RouteOuverte.AppShell"
+       Shell.BackgroundColor="{StaticResource RoPrimary}"
+       Shell.TitleColor="White"
+       Shell.ForegroundColor="White"
+       Shell.NavBarHasShadow="False"
+       Shell.TabBarBackgroundColor="White"
+       Shell.TabBarForegroundColor="{StaticResource RoPrimary}"
+       Shell.TabBarTitleColor="{StaticResource RoPrimary}"
+       Shell.TabBarUnselectedColor="{StaticResource RoTextSecondary}">
+    <TabBar>
+        <ShellContent Title="Trajet" Route="Trajet" ContentTemplate="{DataTemplate pages:TrajetPage}" />
+        <ShellContent Title="Signaler" Route="Signaler" ContentTemplate="{DataTemplate pages:SignalerPage}" />
+        <ShellContent Title="Mes trajets" Route="MesTrajets" ContentTemplate="{DataTemplate pages:MesTrajetsPage}" />
+    </TabBar>
+</Shell>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:m="clr-namespace:RouteOuverte.Models"
+             x:Class="RouteOuverte.Pages.EtatPage"
+             BackgroundColor="{StaticResource RoBackground}">
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="12">
+            <Label x:Name="MajLabel" Style="{StaticResource Secondaire}" />
+            <Border x:Name="Bandeau" Style="{StaticResource Carte}" BackgroundColor="{StaticResource RoErrorContainer}" Padding="16,12">
+                <Label x:Name="BandeauLabel" FontAttributes="Bold" TextColor="{StaticResource RoOnErrorContainer}" />
+            </Border>
+            <FlexLayout Wrap="Wrap" JustifyContent="Start">
+                <HorizontalStackLayout Spacing="4" Margin="0,0,12,4">
+                    <BoxView Color="{StaticResource RoBloquee}" WidthRequest="12" HeightRequest="12" CornerRadius="6" VerticalOptions="Center" />
+                    <Label Text="Bloquée" FontSize="14" />
+                </HorizontalStackLayout>
+                <HorizontalStackLayout Spacing="4" Margin="0,0,12,4">
+                    <BoxView Color="{StaticResource RoInondee}" WidthRequest="12" HeightRequest="12" CornerRadius="6" VerticalOptions="Center" />
+                    <Label Text="Inondée" FontSize="14" />
+                </HorizontalStackLayout>
+                <HorizontalStackLayout Spacing="4" Margin="0,0,12,4">
+                    <BoxView Color="{StaticResource RoDifficile}" WidthRequest="12" HeightRequest="12" CornerRadius="6" VerticalOptions="Center" />
+                    <Label Text="Boueuse" FontSize="14" />
+                </HorizontalStackLayout>
+                <HorizontalStackLayout Spacing="4" Margin="0,0,12,4">
+                    <BoxView Color="{StaticResource RoPraticable}" WidthRequest="12" HeightRequest="12" CornerRadius="6" VerticalOptions="Center" />
+                    <Label Text="Praticable" FontSize="14" />
+                </HorizontalStackLayout>
+            </FlexLayout>
+            <VerticalStackLayout x:Name="Liste" Spacing="12" BindableLayout.ItemsSource="{Binding .}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="m:Troncon">
+                        <Border Style="{StaticResource Carte}">
+                            <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="8" RowSpacing="4">
+                                <BoxView Color="{Binding Couleur}" WidthRequest="16" HeightRequest="16" CornerRadius="8" VerticalOptions="Center" />
+                                <Label Grid.Column="1" Text="{Binding Nom}" FontSize="20" FontAttributes="Bold" VerticalOptions="Center" />
+                                <Border Grid.Column="2" BackgroundColor="{Binding Couleur}" Stroke="Transparent" Padding="10,4" VerticalOptions="Start">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="16" />
+                                    </Border.StrokeShape>
+                                    <Label Text="{Binding Libelle}" TextColor="{Binding CouleurTexte}" FontSize="14" FontAttributes="Bold" />
+                                </Border>
+                                <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding TexteSignalements}" Style="{StaticResource Secondaire}" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+            <Button Text="Signaler une route" Style="{StaticResource BoutonContour}" Margin="0,12,0,0" Clicked="OnSignaler" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

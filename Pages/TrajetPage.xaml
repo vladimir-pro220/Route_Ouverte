@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RouteOuverte.Pages.TrajetPage" Title="Route Ouverte"
+             BackgroundColor="{StaticResource RoBackground}">
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="8">
+            <Label Text="Où allez-vous ?" Style="{StaticResource Titre}" Margin="0,8,0,8" />
+            <Border Style="{StaticResource Carte}">
+                <VerticalStackLayout>
+                    <Label Text="Départ" Style="{StaticResource Secondaire}" />
+                    <Entry x:Name="DepartEntry" Text="Akwa" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource RoTextPrimary}" />
+                </VerticalStackLayout>
+            </Border>
+            <Button Text="⇅" Clicked="OnInverser" HorizontalOptions="End" WidthRequest="48" HeightRequest="48"
+                    CornerRadius="24" Padding="0" FontSize="22" BackgroundColor="White" TextColor="{StaticResource RoPrimary}"
+                    SemanticProperties.Description="Inverser départ et arrivée" />
+            <Border Style="{StaticResource Carte}">
+                <VerticalStackLayout>
+                    <Label Text="Arrivée" Style="{StaticResource Secondaire}" />
+                    <Entry x:Name="ArriveeEntry" Text="Marché Deido" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource RoTextPrimary}" />
+                </VerticalStackLayout>
+            </Border>
+            <Label Text="Lieux favoris" Style="{StaticResource Secondaire}" Margin="0,16,0,0" />
+            <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                <HorizontalStackLayout Spacing="8">
+                    <Button Text="Domicile" Style="{StaticResource Puce}" Clicked="OnFavori" />
+                    <Button Text="Travail" Style="{StaticResource Puce}" Clicked="OnFavori" />
+                    <Button Text="École" Style="{StaticResource Puce}" Clicked="OnFavori" />
+                    <Button Text="Marché" Style="{StaticResource Puce}" Clicked="OnFavori" />
+                </HorizontalStackLayout>
+            </ScrollView>
+            <Button Text="Voir l'état des routes" Style="{StaticResource BoutonPrincipal}" Margin="0,24,0,0" Clicked="OnVoirEtat" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

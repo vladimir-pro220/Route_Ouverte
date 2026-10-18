@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:m="clr-namespace:RouteOuverte.Models"
+             x:Class="RouteOuverte.Pages.MesTrajetsPage" Title="Mes trajets"
+             BackgroundColor="{StaticResource RoBackground}">
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="16">
+            <Label Text="Enregistrez jusqu'à 3 trajets du quotidien." Style="{StaticResource Secondaire}" />
+            <VerticalStackLayout x:Name="Liste" Spacing="16">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="m:Trajet">
+                        <Border Style="{StaticResource Carte}">
+                            <VerticalStackLayout Spacing="8">
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                    <Label Text="{Binding Nom}" FontAttributes="Bold" VerticalOptions="Center" />
+                                    <HorizontalStackLayout Grid.Column="1" Spacing="8">
+                                        <BoxView Color="{Binding Couleur}" WidthRequest="14" HeightRequest="14" CornerRadius="7" VerticalOptions="Center" />
+                                        <Label Text="{Binding Resume}" FontSize="14" FontAttributes="Bold" TextColor="{Binding Couleur}" VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
+                                </Grid>
+                                <Label Text="{Binding MiseAJour}" Style="{StaticResource Secondaire}" />
+                                <Label Text="Signalements valables 6 h" Style="{StaticResource Secondaire}" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+            <Border x:Name="AjouterCarte" Style="{StaticResource Carte}" BackgroundColor="White" Stroke="#C3C6D2" StrokeThickness="2" StrokeDashArray="4,4" Padding="20">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnAjouter" />
+                </Border.GestureRecognizers>
+                <Label Text="+  Ajouter un trajet" FontAttributes="Bold" TextColor="{StaticResource RoPrimary}" HorizontalOptions="Center" />
+            </Border>
+            <Border Style="{StaticResource Carte}">
+                <VerticalStackLayout Spacing="4">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Notification chaque matin" FontAttributes="Bold" VerticalOptions="Center" />
+                        <Switch x:Name="NotifSwitch" Grid.Column="1" OnColor="{StaticResource RoPrimary}" Toggled="OnNotifChange" />
+                    </Grid>
+                    <Label Text="État de vos trajets avant de partir" Style="{StaticResource Secondaire}" />
+                    <TimePicker x:Name="HeurePicker" Format="HH 'h' mm" FontAttributes="Bold" HorizontalOptions="Start"
+                                TextColor="{StaticResource RoTextPrimary}" PropertyChanged="OnHeureChange" />
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

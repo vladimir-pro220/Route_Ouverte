@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RouteOuverte.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Couleurs du design system Route Ouverte -->
+            <Color x:Key="RoPrimary">#1F4E8C</Color>
+            <Color x:Key="RoBackground">#FCF9F8</Color>
+            <Color x:Key="RoSurface">#F6F3F2</Color>
+            <Color x:Key="RoTextPrimary">#1C1B1B</Color>
+            <Color x:Key="RoTextSecondary">#434750</Color>
+            <Color x:Key="RoErrorContainer">#FFDAD6</Color>
+            <Color x:Key="RoOnErrorContainer">#93000A</Color>
+            <Color x:Key="RoBloquee">#8E1B1B</Color>
+            <Color x:Key="RoInondee">#E53935</Color>
+            <Color x:Key="RoDifficile">#F57C00</Color>
+            <Color x:Key="RoPraticable">#2E7D32</Color>
+
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource RoTextPrimary}" />
+                <Setter Property="FontSize" Value="16" />
+            </Style>
+            <Style x:Key="Titre" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource RoTextPrimary}" />
+                <Setter Property="FontSize" Value="24" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+            <Style x:Key="Secondaire" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource RoTextSecondary}" />
+                <Setter Property="FontSize" Value="14" />
+            </Style>
+            <Style x:Key="Carte" TargetType="Border">
+                <Setter Property="BackgroundColor" Value="{StaticResource RoSurface}" />
+                <Setter Property="Stroke" Value="Transparent" />
+                <Setter Property="StrokeThickness" Value="0" />
+                <Setter Property="Padding" Value="16" />
+                <Setter Property="StrokeShape">
+                    <Setter.Value>
+                        <RoundRectangle CornerRadius="16" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="BoutonPrincipal" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource RoPrimary}" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="CornerRadius" Value="16" />
+                <Setter Property="HeightRequest" Value="52" />
+            </Style>
+            <Style x:Key="BoutonContour" TargetType="Button" BasedOn="{StaticResource BoutonPrincipal}">
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="TextColor" Value="{StaticResource RoPrimary}" />
+                <Setter Property="BorderColor" Value="{StaticResource RoPrimary}" />
+                <Setter Property="BorderWidth" Value="2" />
+            </Style>
+            <Style x:Key="Puce" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource RoSurface}" />
+                <Setter Property="TextColor" Value="{StaticResource RoTextPrimary}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="CornerRadius" Value="16" />
+                <Setter Property="HeightRequest" Value="48" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
