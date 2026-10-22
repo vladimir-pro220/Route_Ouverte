@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RouteOuverte.Views.Dialogue">
+    <Grid>
+        <BoxView Color="Black" Opacity="0.2">
+            <BoxView.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnAnnuler" />
+            </BoxView.GestureRecognizers>
+        </BoxView>
+
+        <Border VerticalOptions="Center" Margin="24" BackgroundColor="White" Stroke="Transparent" Padding="24">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="28" />
+            </Border.StrokeShape>
+            <VerticalStackLayout Spacing="16">
+                <Label x:Name="TitreLabel" FontSize="20" FontAttributes="Bold" />
+                <Label x:Name="MessageLabel" Style="{StaticResource Secondaire}" FontSize="16" />
+                <HorizontalStackLayout HorizontalOptions="End" Spacing="8">
+                    <Button x:Name="BtnAnnuler" Text="Annuler" BackgroundColor="Transparent"
+                            TextColor="{StaticResource RoPrimary}" FontAttributes="Bold" FontSize="16"
+                            HeightRequest="48" Clicked="OnAnnuler" />
+                    <Button x:Name="BtnOk" BackgroundColor="Transparent" FontAttributes="Bold" FontSize="16"
+                            HeightRequest="48" Clicked="OnOk" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+</ContentView>

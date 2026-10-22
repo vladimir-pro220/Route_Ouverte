@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RouteOuverte.Views.HeureDialog">
+    <Grid>
+        <BoxView Color="Black" Opacity="0.2">
+            <BoxView.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnAnnuler" />
+            </BoxView.GestureRecognizers>
+        </BoxView>
+
+        <Border VerticalOptions="Center" Margin="24" BackgroundColor="White" Stroke="Transparent" Padding="24">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="28" />
+            </Border.StrokeShape>
+            <VerticalStackLayout Spacing="16">
+                <Label Text="CHOISIR L'HEURE D'ALERTE" FontSize="13" FontAttributes="Bold" Style="{StaticResource Secondaire}" />
+
+                <Grid ColumnDefinitions="*,Auto,*" ColumnSpacing="8">
+                    <VerticalStackLayout Spacing="4">
+                        <Button Text="▲" Style="{StaticResource Puce}" Clicked="OnHPlus" />
+                        <Border BackgroundColor="#D6E3FF" Stroke="Transparent" Padding="0,12">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12" />
+                            </Border.StrokeShape>
+                            <Label x:Name="HLabel" FontSize="44" HorizontalTextAlignment="Center" />
+                        </Border>
+                        <Button Text="▼" Style="{StaticResource Puce}" Clicked="OnHMoins" />
+                    </VerticalStackLayout>
+
+                    <Label Grid.Column="1" Text=":" FontSize="44" VerticalOptions="Center" />
+
+                    <VerticalStackLayout Grid.Column="2" Spacing="4">
+                        <Button Text="▲" Style="{StaticResource Puce}" Clicked="OnMPlus" />
+                        <Border BackgroundColor="#D6E3FF" Stroke="Transparent" Padding="0,12">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12" />
+                            </Border.StrokeShape>
+                            <Label x:Name="MLabel" FontSize="44" HorizontalTextAlignment="Center" />
+                        </Border>
+                        <Button Text="▼" Style="{StaticResource Puce}" Clicked="OnMMoins" />
+                    </VerticalStackLayout>
+                </Grid>
+
+                <HorizontalStackLayout HorizontalOptions="End" Spacing="8">
+                    <Button Text="Annuler" BackgroundColor="Transparent" TextColor="{StaticResource RoPrimary}"
+                            FontAttributes="Bold" FontSize="16" HeightRequest="48" Clicked="OnAnnuler" />
+                    <Button Text="OK" BackgroundColor="Transparent" TextColor="{StaticResource RoPrimary}"
+                            FontAttributes="Bold" FontSize="16" HeightRequest="48" Clicked="OnOk" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+</ContentView>

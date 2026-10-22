@@ -1,9 +1,7 @@
-using CommunityToolkit.Maui.ApplicationModel;
 using Microsoft.Maui.Controls.Shapes;
 using RouteOuverte.Models;
 
 namespace RouteOuverte.Pages;
-
 
 [QueryProperty(nameof(Nom), "nom")]
 public partial class DetailPage : ContentPage
@@ -17,6 +15,11 @@ public partial class DetailPage : ContentPage
     {
         base.OnAppearing();
         Title = Nom;
+        Remplir();
+    }
+
+    void Remplir()
+    {
         _t = RoadService.EtatDuJour().FirstOrDefault(x => x.Nom == Nom);
         if (_t == null) return;
 
@@ -28,12 +31,15 @@ public partial class DetailPage : ContentPage
         NbSignalements.Text = _t.NbSignalements.ToString();
         NbConfirmations.Text = _t.Confirmations.ToString();
 
+        DeconfLabel.IsVisible = _t.Deconfirmations > 0;
+        DeconfLabel.Text = $"👎 {_t.Deconfirmations} déconfirmation{(_t.Deconfirmations > 1 ? "s" : "")}";
+        ConstesteLabel.IsVisible = _t.Conteste;
+
         BtnConfirmer.Text = _t.Confirme ? "✓ Confirmé" : "👍 Confirmer : toujours vrai";
-        BtnConfirmer.IsEnabled = !_t.Confirme;
+        BtnDeconfirmer.Text = _t.Deconfirme ? "✓ Déconfirmé" : "👎 Déconfirmer : l'état a changé";
 
         var sigs = RoadService.Derniers(Nom);
 
-        // Photos récentes (toucher -> écran 10)
         Photos.Children.Clear();
         foreach (var s in sigs.Where(x => !string.IsNullOrEmpty(x.Photo) && File.Exists(x.Photo)).Take(4))
         {
@@ -53,7 +59,6 @@ public partial class DetailPage : ContentPage
         }
         BlocPhotos.IsVisible = Photos.Children.Count > 0;
 
-        // Derniers signalements
         BindableLayout.SetItemsSource(Derniers, sigs.Take(3).Select(s => new LigneSignalement
         {
             Texte = $"{RoadService.Depuis(s.Date)} · {s.Statut.Libelle()}",
@@ -64,10 +69,29 @@ public partial class DetailPage : ContentPage
     // 09 -> 11 : on confirme puis on revient à l'état du jour, qui affiche la barre « Merci »
     async void OnConfirmer(object? sender, EventArgs e)
     {
-        if (_t == null || _t.Confirme) return;
-        RoadService.Confirmer(_t.Nom);
+        if (_t == null || _t.Vote != null) return;
+        RoadService.Voter(_t.Nom, true);
         Choix.DerniereConfirmation = _t.Nom;
         await Shell.Current.GoToAsync("..");
+    }
+
+    async void OnDeconfirmer(object? sender, EventArgs e)
+    {
+        if (_t == null || _t.Vote != null) return;
+        var libelle = _t.Libelle;
+        RoadService.Voter(_t.Nom, false);
+        Remplir();
+
+        var oui = await DisplayAlertAsync(
+            "Vous n'êtes pas d'accord ?",
+            $"Vous avez déconfirmé l'état « {libelle} » de {Nom}. Voulez-vous signaler le nouvel état de cette route ?",
+            "Signaler le nouvel état", "Plus tard");
+
+        if (oui)
+        {
+            Brouillon.Route = Nom;
+            await Shell.Current.GoToAsync("//Signaler");
+        }
     }
 
     async void OnChangement(object? sender, EventArgs e)

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:m="clr-namespace:RouteOuverte.Models"
+             xmlns:v="clr-namespace:RouteOuverte.Views"
+             x:Class="RouteOuverte.Pages.DetailTrajetPage" Title="Détail du trajet"
+             Shell.TabBarIsVisible="True"
+             BackgroundColor="{StaticResource RoBackground}">
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="16" Spacing="12">
+
+                <Border x:Name="Bandeau" Style="{StaticResource Carte}" BackgroundColor="{StaticResource RoErrorContainer}" Padding="16,12">
+                    <Label x:Name="BandeauLabel" FontAttributes="Bold" TextColor="{StaticResource RoOnErrorContainer}" />
+                </Border>
+
+                <Label Text="⏱ Signalements valables 6 h" Style="{StaticResource Secondaire}" />
+
+                <VerticalStackLayout x:Name="Liste" Spacing="12">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="m:Troncon">
+                            <Border Style="{StaticResource Carte}">
+                                <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="8" RowSpacing="4">
+                                    <HorizontalStackLayout Spacing="8">
+                                        <BoxView Color="{Binding Couleur}" WidthRequest="12" HeightRequest="12" CornerRadius="6" VerticalOptions="Center" />
+                                        <Label Text="{Binding Nom}" FontAttributes="Bold" VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
+                                    <Border Grid.Column="1" BackgroundColor="{Binding Couleur}" Stroke="Transparent" Padding="10,4">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="16" />
+                                        </Border.StrokeShape>
+                                        <Label Text="{Binding Libelle}" TextColor="{Binding CouleurTexte}" FontSize="14" FontAttributes="Bold" />
+                                    </Border>
+                                    <Label Grid.Row="1" Text="{Binding TexteExpire, StringFormat='⏱ {0}'}" Style="{StaticResource Secondaire}" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+
+                <Label x:Name="VideLabel" Text="Aucun signalement récent sur ce trajet." Style="{StaticResource Secondaire}"
+                       IsVisible="False" />
+
+                <Button Text="Voir l'état détaillé" Style="{StaticResource BoutonPrincipal}" Margin="0,8,0,0" Clicked="OnEtat" />
+                <Button Text="Modifier le trajet" Style="{StaticResource BoutonContour}" Clicked="OnModifier" />
+                <Button Text="🗑 Supprimer ce trajet" BackgroundColor="Transparent" TextColor="#BA1A1A"
+                        FontAttributes="Bold" HeightRequest="48" Clicked="OnSupprimer" />
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Écran 20 -->
+        <v:Dialogue x:Name="Suppression" IsVisible="False" />
+    </Grid>
+</ContentPage>

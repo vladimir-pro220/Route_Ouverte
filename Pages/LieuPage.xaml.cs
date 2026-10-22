@@ -14,7 +14,7 @@ public partial class LieuPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        Title = Champ == "arrivee" ? "Choisir l'arrivée" : "Choisir le départ";
+        Title = Champ.EndsWith("arrivee") ? "Choisir l'arrivée" : "Choisir le départ";
         Construire();
     }
 
@@ -104,7 +104,13 @@ public partial class LieuPage : ContentPage
 
     async Task Choisir(string lieu)
     {
-        if (Champ == "arrivee") Choix.Arrivee = lieu; else Choix.Depart = lieu;
+        switch (Champ)
+        {
+            case "arrivee": Choix.Arrivee = lieu; break;
+            case "trajetdepart": Choix.TrajetDepart = lieu; break;
+            case "trajetarrivee": Choix.TrajetArrivee = lieu; break;
+            default: Choix.Depart = lieu; break;
+        }
         await Shell.Current.GoToAsync("..");
     }
 }

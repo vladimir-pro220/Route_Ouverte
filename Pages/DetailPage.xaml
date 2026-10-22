@@ -16,8 +16,12 @@
                     <Label x:Name="BadgeLabel" FontSize="16" FontAttributes="Bold" />
                 </Border>
             </HorizontalStackLayout>
+
             <Label x:Name="ZoneLabel" Style="{StaticResource Secondaire}" />
             <Label x:Name="ExpireLabel" Style="{StaticResource Secondaire}" />
+            <Label x:Name="DeconfLabel" Style="{StaticResource Secondaire}" IsVisible="False" />
+            <Label x:Name="ConstesteLabel" Text="⚠ État contesté : à vérifier" TextColor="#BA1A1A"
+                   FontAttributes="Bold" IsVisible="False" />
 
             <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
                 <Border Style="{StaticResource Carte}">
@@ -56,6 +60,8 @@
             </VerticalStackLayout>
 
             <Button x:Name="BtnConfirmer" Style="{StaticResource BoutonPrincipal}" Margin="0,12,0,0" Clicked="OnConfirmer" />
+            <Button x:Name="BtnDeconfirmer" Style="{StaticResource BoutonContour}" TextColor="#BA1A1A"
+                    BorderColor="#BA1A1A" Clicked="OnDeconfirmer" />
             <Button Text="Signaler un changement" Style="{StaticResource BoutonContour}" Clicked="OnChangement" />
         </VerticalStackLayout>
     </ScrollView>

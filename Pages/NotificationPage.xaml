@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:m="clr-namespace:RouteOuverte.Models"
+             x:Class="RouteOuverte.Pages.NotificationPage"
+             Shell.NavBarIsVisible="False" Shell.TabBarIsVisible="False"
+             BackgroundColor="#1F2933">
+    <ScrollView>
+        <VerticalStackLayout Padding="16,32,16,24" Spacing="12">
+
+            <Label x:Name="HeureLabel" TextColor="White" FontSize="64" FontAttributes="Bold" HorizontalOptions="Center" />
+            <Label x:Name="DateLabel" TextColor="#C3C6D2" FontSize="16" HorizontalOptions="Center" Margin="0,0,0,16" />
+
+            <VerticalStackLayout x:Name="Notifs" Spacing="12">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="m:NotifLigne">
+                        <Border BackgroundColor="White" Stroke="Transparent" Padding="16">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="16" />
+                            </Border.StrokeShape>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnNotifTapped" />
+                            </Border.GestureRecognizers>
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="🛣 Route Ouverte · maintenant" FontSize="13" TextColor="{StaticResource RoTextSecondary}" />
+                                <Label Text="{Binding Titre}" FontSize="16" FontAttributes="Bold" TextColor="#1C1B1B" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+
+            <Button Text="Fermer" BackgroundColor="Transparent" TextColor="White" FontAttributes="Bold"
+                    HeightRequest="48" Margin="0,24,0,0" Clicked="OnFermer" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

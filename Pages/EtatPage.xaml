@@ -48,7 +48,7 @@
                                 <Border.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="OnCarteTapped" />
                                 </Border.GestureRecognizers>
-                                <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnSpacing="8" RowSpacing="4">
+                                <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto" ColumnSpacing="8" RowSpacing="4">
 
                                     <HorizontalStackLayout Spacing="8">
                                         <BoxView Color="{Binding Couleur}" WidthRequest="16" HeightRequest="16" CornerRadius="8" VerticalOptions="Center" />
@@ -65,6 +65,8 @@
                                     <Label Grid.Row="1" Text="{Binding TexteZone}" Style="{StaticResource Secondaire}" />
                                     <Label Grid.Row="2" Text="{Binding TexteCompteurs}" Style="{StaticResource Secondaire}" />
                                     <Label Grid.Row="3" Text="{Binding TexteExpire, StringFormat='⏱ {0}'}" Style="{StaticResource Secondaire}" />
+                                    <Label Grid.Row="4" Grid.ColumnSpan="2" Text="{Binding TexteConteste}" TextColor="#BA1A1A"
+                                           FontSize="14" FontAttributes="Bold" IsVisible="{Binding Conteste}" />
 
                                     <!-- Miniature photo : toucher pour ouvrir l'écran 10 -->
                                     <Border Grid.Row="1" Grid.Column="1" Grid.RowSpan="3" WidthRequest="56" HeightRequest="56"
@@ -78,10 +80,15 @@
                                         <Image Source="{Binding Miniature}" Aspect="AspectFill" />
                                     </Border>
 
-                                    <Label Grid.Row="4" Text="Toujours vrai ?" Style="{StaticResource Secondaire}" VerticalOptions="Center" />
-                                    <Button Grid.Row="4" Grid.Column="1" Text="{Binding TexteConfirmer}"
-                                            Style="{StaticResource BoutonContour}" HeightRequest="48" Padding="16,0"
-                                            BackgroundColor="{Binding FondConfirmer}" Clicked="OnConfirmer" />
+                                    <Label Grid.Row="5" Grid.ColumnSpan="2" Text="Toujours vrai ?" Style="{StaticResource Secondaire}" Margin="0,4,0,0" />
+
+                                    <Grid Grid.Row="6" Grid.ColumnSpan="2" ColumnDefinitions="*,*" ColumnSpacing="8">
+                                        <Button Text="{Binding TexteConfirmer}" Style="{StaticResource BoutonContour}" HeightRequest="48"
+                                                Padding="8,0" BackgroundColor="{Binding FondConfirmer}" Clicked="OnConfirmer" />
+                                        <Button Grid.Column="1" Text="{Binding TexteDeconfirmer}" Style="{StaticResource BoutonContour}"
+                                                HeightRequest="48" Padding="8,0" TextColor="#BA1A1A" BorderColor="#BA1A1A"
+                                                BackgroundColor="{Binding FondDeconfirmer}" Clicked="OnDeconfirmer" />
+                                    </Grid>
                                 </Grid>
                             </Border>
                         </DataTemplate>
@@ -108,7 +115,7 @@
                 <RoundRectangle CornerRadius="12" />
             </Border.StrokeShape>
             <Grid ColumnDefinitions="*,Auto">
-                <Label Text="Merci, confirmation enregistrée" TextColor="White" FontSize="14" VerticalOptions="Center" />
+                <Label x:Name="SnackTexte" Text="Merci, confirmation enregistrée" TextColor="White" FontSize="14" VerticalOptions="Center" />
                 <Button Grid.Column="1" Text="Annuler" BackgroundColor="Transparent" TextColor="#D6E3FF"
                         FontAttributes="Bold" HeightRequest="48" Clicked="OnAnnulerConfirmation" />
             </Grid>

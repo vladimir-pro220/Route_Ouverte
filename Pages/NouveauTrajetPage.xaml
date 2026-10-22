@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RouteOuverte.Pages.NouveauTrajetPage" Title="Nouveau trajet"
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="{StaticResource RoBackground}">
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="8">
+
+            <Label x:Name="CompteurLabel" Style="{StaticResource Secondaire}" />
+
+            <Label Text="Nom du trajet" FontSize="14" FontAttributes="Bold" Margin="0,8,0,0" />
+            <Border Style="{StaticResource Carte}" Padding="16,0">
+                <Entry x:Name="NomEntry" Placeholder="Ex. : Domicile → Travail" FontSize="16" />
+            </Border>
+
+            <Label Text="Départ" FontSize="14" FontAttributes="Bold" Margin="0,8,0,0" />
+            <Border Style="{StaticResource Carte}" Padding="16,14" MinimumHeightRequest="56">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnDepart" />
+                </Border.GestureRecognizers>
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label x:Name="DepartLabel" VerticalOptions="Center" />
+                    <Label Grid.Column="1" Text="›" FontSize="24" TextColor="{StaticResource RoTextSecondary}" />
+                </Grid>
+            </Border>
+
+            <Label Text="Arrivée" FontSize="14" FontAttributes="Bold" Margin="0,8,0,0" />
+            <Border Style="{StaticResource Carte}" Padding="16,14" MinimumHeightRequest="56">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnArrivee" />
+                </Border.GestureRecognizers>
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label x:Name="ArriveeLabel" VerticalOptions="Center" />
+                    <Label Grid.Column="1" Text="›" FontSize="24" TextColor="{StaticResource RoTextSecondary}" />
+                </Grid>
+            </Border>
+
+            <Label x:Name="ErreurLabel" TextColor="#BA1A1A" FontSize="14" IsVisible="False" />
+
+            <Button Text="Enregistrer le trajet" Style="{StaticResource BoutonPrincipal}" Margin="0,24,0,0" Clicked="OnEnregistrer" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

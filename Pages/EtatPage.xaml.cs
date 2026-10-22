@@ -17,7 +17,6 @@ public partial class EtatPage : ContentPage
     public EtatPage()
     {
         InitializeComponent();
-        // Toucher la carte -> écran 08
         Carte.Touchee += async (_, _) => await Shell.Current.GoToAsync(nameof(CartePage));
     }
 
@@ -32,7 +31,7 @@ public partial class EtatPage : ContentPage
         {
             _dernier = Choix.DerniereConfirmation;
             Choix.DerniereConfirmation = null;
-            _ = MontrerSnack();
+            _ = MontrerSnack("Merci, confirmation enregistrée");
         }
     }
 
@@ -74,7 +73,6 @@ public partial class EtatPage : ContentPage
         BindableLayout.SetItemsSource(Liste, null);
         BindableLayout.SetItemsSource(Liste, filtre);
 
-        // Écran 07 : état vide
         EtatVide.IsVisible = filtre.Count == 0;
         BoutonSignaler.IsVisible = filtre.Count > 0;
         VideTexte.Text = _zone == "Toutes"
@@ -84,14 +82,12 @@ public partial class EtatPage : ContentPage
         Carte.Afficher(_tous, _zone);
     }
 
-    // Écran 09
     async void OnCarteTapped(object? sender, TappedEventArgs e)
     {
         var t = (Troncon)((Border)sender!).BindingContext;
         await Shell.Current.GoToAsync($"{nameof(DetailPage)}?nom={Uri.EscapeDataString(t.Nom)}");
     }
 
-    // Écran 10
     async void OnPhotoTapped(object? sender, TappedEventArgs e)
     {
         var t = (Troncon)((Border)sender!).BindingContext;
@@ -99,29 +95,56 @@ public partial class EtatPage : ContentPage
         await Choix.VoirPhoto(t.Photo, $"{t.Nom} · {t.Libelle} · {RoadService.Depuis(t.DerniereMaj)}");
     }
 
-    // Écran 11
+    // Écran 11 : confirmation
     void OnConfirmer(object? sender, EventArgs e)
     {
         var t = (Troncon)((Button)sender!).BindingContext;
-        if (t.Confirme) return;
-        RoadService.Confirmer(t.Nom);
+        if (t.Vote != null) return;
+        RoadService.Voter(t.Nom, true);
         _dernier = t.Nom;
         Rafraichir();
-        _ = MontrerSnack();
+        _ = MontrerSnack("Merci, confirmation enregistrée");
+    }
+
+    // Déconfirmation : on propose ensuite de signaler le nouvel état
+    async void OnDeconfirmer(object? sender, EventArgs e)
+    {
+        var t = (Troncon)((Button)sender!).BindingContext;
+        if (t.Vote != null) return;
+
+        RoadService.Voter(t.Nom, false);
+        _dernier = t.Nom;
+        Rafraichir();
+
+        var oui = await DisplayAlertAsync(
+            "Vous n'êtes pas d'accord ?",
+            $"Vous avez déconfirmé l'état « {t.Libelle} » de {t.Nom}. Voulez-vous signaler le nouvel état de cette route ?",
+            "Signaler le nouvel état", "Plus tard");
+
+        if (oui)
+        {
+            Brouillon.Route = t.Nom;
+            await Shell.Current.GoToAsync("//Signaler");
+        }
+        else
+        {
+            _ = MontrerSnack("Votre désaccord est enregistré");
+        }
     }
 
     void OnAnnulerConfirmation(object? sender, EventArgs e)
     {
-        if (_dernier != null) RoadService.AnnulerConfirmation(_dernier);
+        if (_dernier != null) RoadService.AnnulerVote(_dernier);
         _dernier = null;
         _snackId++;
         Snack.IsVisible = false;
         Rafraichir();
     }
 
-    async Task MontrerSnack()
+    async Task MontrerSnack(string texte)
     {
         var id = ++_snackId;
+        SnackTexte.Text = texte;
         Snack.IsVisible = true;
         await Task.Delay(5000);
         if (id == _snackId) Snack.IsVisible = false;
